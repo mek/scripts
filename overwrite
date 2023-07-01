@@ -1,6 +1,5 @@
 #!/bin/sh
 
-tmp=${TMPDIR:="/tmp"}
 prog=`basename $0`
 
 # procedures
@@ -25,7 +24,7 @@ esac
 file=$1; shift
 test -f $file || Fatal "overwrite:$file does not exists"
 	
-new=$tmp/overwr1.$$ ; old=$tmp/overwr2.$$
+new=`mktemp`; old=`mktemp`;
 trap 'rm -f $new $old; exit 1' 1 2 15
 
 if "$@" >$new
