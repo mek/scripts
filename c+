@@ -1,0 +1,3 @@
+#!/bin/sh
+## add a comment hash and space to the start of a line
+gres "^" "# " 

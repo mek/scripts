@@ -56,3 +56,52 @@ $ diff testfiles/hosts.orig testfiles/hosts
 
 NOTE: gres only replace the FIRST occurance of pattern in each line.
 
+* [c+](c+) and [c-](c-) Add/remove comment hash `#` from the start of a line.
+
+``` shell
+c+ < file
+c- < file
+```
+
+I mainly use these in my editors of choise (sam and acme).
+
+``` shell
+$ sam -d gres
+ -. gres
+1,10p
+#!/bin/sh
+
+tmp=${TMPDIR:="/tmp"}
+prog=`basename $0`
+
+# procedures
+Err() { 
+	echo 1>&2 "$*" 
+}
+
+1,10 | c+
+!
+1,10 p 
+# #!/bin/sh
+# 
+# tmp=${TMPDIR:="/tmp"}
+# prog=`basename $0`
+# 
+# # procedures
+# Err() { 
+# 	echo 1>&2 "$*" 
+# }
+# 
+1,10 | c-
+!
+1,10 p
+#!/bin/sh
+
+tmp=${TMPDIR:="/tmp"}
+prog=`basename $0`
+
+# procedures
+Err() { 
+	echo 1>&2 "$*" 
+}
+```

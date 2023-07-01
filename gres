@@ -20,12 +20,21 @@ Fatal() {
 
 case $# in
 3) ;;
+2) ;;
 *) Usage "$prog pattern replacement file" ;;
 esac
 
+A="`echo | tr '\012' '\001'`"
 pattern=$1; replacement=$2; shift; shift 
 
+case $# in
+1) 
 [ -f $1 ] || Fatal "$1 is not a file"
-
-A="`echo | tr '\012' '\001'`"
 sed -e "s$A$pattern$A$replacement$A" $1
+;;
+0)
+sed -e "s$A$pattern$A$replacement$A"
+;;
+esac
+
+
