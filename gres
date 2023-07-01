@@ -1,0 +1,31 @@
+#!/bin/sh
+
+tmp=${TMPDIR:="/tmp"}
+prog=`basename $0`
+
+# procedures
+Err() { 
+	echo 1>&2 "$*" 
+}
+
+Usage() { 
+	Err "usage:$*"
+	exit 2
+}
+
+Fatal() {
+	Err "fatal:$*"
+	exit 1
+}
+
+case $# in
+3) ;;
+*) Usage "$prog pattern replacement file" ;;
+esac
+
+pattern=$1; replacement=$2; shift; shift 
+
+[ -f $1 ] || Fatal "$1 is not a file"
+
+A="`echo | tr '\012' '\001'`"
+sed -e "s$A$pattern$A$replacement$A" $1

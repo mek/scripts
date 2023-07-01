@@ -1,0 +1,30 @@
+#!/bin/sh
+
+tmp=${TMPDIR:="/tmp"}
+
+# procedures
+Err() { 
+	echo 1>&2 "$*" 
+}
+
+Usage() { 
+	Err "usage:$*"
+	exit 2
+}
+
+Fatal() {
+	Err "fatal:$*"
+	exit 1
+}
+
+case $# in
+0|1|2)	Usage "replace pattern replacement files" ;;
+esac
+
+pattern=$1; replacement=$2; shift; shift
+
+for file
+do
+	test -f $file || Fatal "replace:$file does not exists"
+	overwrite $file gres $pattern $replacement $file
+done
