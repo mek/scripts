@@ -105,3 +105,11 @@ Err() {
 	echo 1>&2 "$*" 
 }
 ```
+* [i+](i+) and [i-](i-) Add/remove tab from start of line
+
+``` shell
+i+ < file
+i- < file
+```
+
+I mainly use these in my editors of choise (sam and acme).

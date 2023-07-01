@@ -1,0 +1,3 @@
+#!/bin/sh
+## remove comments. First "# " then just "#" at the start of a line.
+gres "^	" ""
