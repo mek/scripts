@@ -1,0 +1,45 @@
+#!/bin/sh
+# Mat Kovach mek at mek dot cc
+# A simple script to convert webp images to png. 
+# requires dwepb to be in your path.
+
+# procs
+# Out - writes to standard error
+Out() {
+	echo 1>&2 "webp2png:$*"
+}
+
+# usage - output usage to standard error and exit with 2
+Usage() {
+	Out "usage: webp2png file" 
+	exit 2
+}
+
+# Shit be broke, output message and exit with 15
+Fatal() {
+	Out "fatal:$*"
+	exit 15
+}
+
+# No use doing anything if dwebp isn't install
+`which dwebp 2>&1 > /dev/null` || Fatal "dwebp must be in the path, exiting"
+
+# check for proper usage and make sure the files meets some requirements.
+# * it's a file
+# * we can read it.
+case $# in
+1) 
+  test -f $1 || Fatal "$1 is not a file, exiting"
+  test -r $1 || Fatal "Could not read $1, exiting"
+  ;;
+*) usage "usage:webp2png webpfile" ;;
+esac
+
+# simple way to remove the .webp and replace it with .png
+filename="${1%.*}.png"
+
+# make sure that we will be creating a new file.
+test -f $filename && Fatal "$filename already exists, exiting"
+
+# All that for this. 
+dwebp $1 -o $filename
